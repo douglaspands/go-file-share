@@ -247,7 +247,7 @@ const htmlTemplate = `
 
         <div class="upload-section">
             <form id="upload-form" class="upload-form">
-                <input type="file" id="file-input" name="file" required>
+                <input type="file" id="file-input" name="file" accept="*/*" required>
                 <button type="submit" class="upload-btn">📤 Upload</button>
             </form>
             <div id="progress-container" class="progress-container">
