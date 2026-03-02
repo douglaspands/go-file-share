@@ -1,11 +1,11 @@
-package internal
+package utils
 
 import (
 	"fmt"
 	"net"
 )
 
-func getLocalIPs() []string {
+func GetLocalIPs() []string {
 	var ips []string
 	addrs, err := net.InterfaceAddrs()
 	if err != nil {
@@ -21,7 +21,7 @@ func getLocalIPs() []string {
 	return ips
 }
 
-func formatBytes(b int64) string {
+func FormatBytes(b int64) string {
 	const unit = 1024
 	if b < unit {
 		return fmt.Sprintf("%d B", b)

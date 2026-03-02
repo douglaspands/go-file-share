@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Go File Share</title>
+    <link rel="stylesheet" href="/static/css/index.css">
+</head>
+
+<body>
+    <svg style="display: none;">
+        <symbol id="icon-filled-folder" viewBox="0 0 24 24">
+            <path
+                d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8h16v10zm-2-12H6V6h12v2z" />
+            <path d="M2 6C2 4.9 2.9 4 4 4h6l2 2h8c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6z" />
+        </symbol>
+        <symbol id="icon-filled-file" viewBox="0 0 24 24">
+            <path
+                d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z" />
+        </symbol>
+        <symbol id="icon-back-thick" viewBox="0 0 24 24">
+            <polyline points="9 14 4 9 9 4"></polyline>
+            <path d="M20 20v-7a4 4 0 0 0-4-4H4"></path>
+        </symbol>
+    </svg>
+
+    <div class="container">
+        <div class="header">
+            <div class="header-top">
+                <h2>Go File Share ({{.version}})</h2>
+                <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">🌙 Dark</button>
+            </div>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Search files..." onkeyup="filterFiles()">
+            </div>
+        </div>
+
+        <div class="breadcrumb">📍 Current path: {{.pathInfo.CurrentPath}}</div>
+
+        <div class="upload-section">
+            <form id="upload-form" class="upload-form">
+                <input type="file" id="file-input" name="file" accept="*/*" required>
+                <button type="submit" class="upload-btn">📤 Upload</button>
+            </form>
+            <div id="progress-container" class="progress-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+            <div id="progress-text" class="progress-text"></div>
+        </div>
+
+        <div id="file-list">
+            {{range .pathInfo.Paths}}
+            <a href="{{.Path}}" class="list-item" data-name="{{.Name}}">
+                {{if eq .Name ".. (Back)"}}
+                <svg class="icon-svg icon-back-arrow">
+                    <use href="#icon-back-thick" />
+                </svg>
+                {{else if .IsDir}}
+                <svg class="icon-svg icon-folder">
+                    <use href="#icon-filled-folder" />
+                </svg>
+                {{else}}
+                <svg class="icon-svg icon-file">
+                    <use href="#icon-filled-file" />
+                </svg>
+                {{end}}
+                <div class="info">
+                    <div class="name">{{.Name}}</div>
+                    {{if not .IsDir}}<div class="details">{{.Size}}</div>{{end}}
+                </div>
+            </a>
+            {{end}}
+        </div>
+    </div>
+
+    <script src="/static/js/index.js"></script>
+</body>
+
+</html>
