@@ -11,6 +11,11 @@ A necessidade de compartilhar arquivos rapidamente em uma rede local sem a compl
 - **Cross-Platform**: Compile facilmente para Windows, Linux e macOS.
 - **Funcionalidades Úteis**: Upload de arquivos, navegação recursiva e interface amigável.
 
+## 📦 Releases
+
+Link para download: [https://github.com/douglaspands/go-file-share/releases](https://github.com/douglaspands/go-file-share/releases)
+
+
 ## 🛠️ Como Compilar
 
 O projeto inclui um `Makefile` para facilitar a compilação cruzada.
@@ -48,14 +53,14 @@ Isso iniciará o servidor na porta **8080** compartilhando o diretório atual.
 | Flag | Abrev. | Descrição | Padrão |
 |------|--------|-----------|--------|
 | `--port` | `-p` | Porta do servidor | `8080` |
-| `--dir` | `-d` | Diretório a ser compartilhado | `.` (atual) |
-| `--recursive` | `-R` | Permite navegar em subpastas | `false` |
+| `--dir` | `-d` | Diretório a ser compartilhado | `~` (home) |
+| `--recursive` | `-R` | Permite navegar em subpastas | `true` |
 
 ### Exemplos
 
-Compartilhar a pasta de Downloads na porta 3000, permitindo navegação em subpastas:
+Compartilhar a pasta de Downloads na porta 8080, permitindo navegação em subpastas:
 ```bash
-./file-share --dir ~/Downloads -p 3000 -R
+./file-share server --dir ~/Downloads -p 8080 -R
 ```
 
 Compartilhar apenas a pasta atual (sem acesso a subpastas):

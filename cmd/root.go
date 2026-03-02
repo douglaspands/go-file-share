@@ -28,7 +28,7 @@ func Execute() {
 	if len(os.Args) == 1 {
 		cmd, _, err := rootCmd.Find(os.Args[1:])
 		if err != nil || cmd.Args == nil {
-			args := append([]string{"server"}, "--dir=~", "-R")
+			args := append([]string{"server"}, os.Args[1:]...)
 			rootCmd.SetArgs(args)
 		}
 	}

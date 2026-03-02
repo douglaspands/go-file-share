@@ -87,8 +87,8 @@ func (s *server) setup() {
 	s.ginEngine.Use(gin.Recovery())
 
 	s.ginEngine.LoadHTMLGlob("templates/*")
-	s.ginEngine.Static("/static", "./static")
-	s.ginEngine.StaticFile("/favicon.ico", "./static/favicon.ico")
+	s.ginEngine.Static("/assets", "./assets")
+	s.ginEngine.StaticFile("/favicon.ico", "./assets/img/favicon.ico")
 
 	s.instances()
 	s.routes()

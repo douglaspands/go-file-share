@@ -46,7 +46,7 @@ var serverCmd = &cobra.Command{
 
 func init() {
 	serverCmd.Flags().StringVarP(&port, "port", "p", "8080", "Server port")
-	serverCmd.Flags().StringVarP(&dirPath, "dir", "d", ".", "Directory to share")
-	serverCmd.Flags().BoolVarP(&recursive, "recursive", "R", false, "Allow subfolder navigation")
+	serverCmd.Flags().StringVarP(&dirPath, "dir", "d", "~", "Directory to share")
+	serverCmd.Flags().BoolVarP(&recursive, "recursive", "R", true, "Allow subfolder navigation")
 	rootCmd.AddCommand(serverCmd)
 }

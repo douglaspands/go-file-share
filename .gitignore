@@ -33,3 +33,4 @@ go.work.sum
 
 file-share
 file-share.exe
+__debug_bin*
