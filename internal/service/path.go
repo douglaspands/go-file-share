@@ -11,14 +11,14 @@ import (
 )
 
 type PathService interface {
-	ListPathInfo(fullPath string, urlPath string) *resource.PathInfoList
+	ListPathInfo(fullPath string, urlPath string, recursive bool) *resource.PathInfoList
 	UploadFile(fileUpload resource.FileUpload) error
 }
 
 type pathService struct {
 }
 
-func (ps pathService) ListPathInfo(fullPath string, urlPath string) *resource.PathInfoList {
+func (ps *pathService) ListPathInfo(fullPath string, urlPath string, recursive bool) *resource.PathInfoList {
 	entries, _ := os.ReadDir(fullPath)
 	var paths []resource.PathInfo
 	if urlPath != "/" {
@@ -27,19 +27,27 @@ func (ps pathService) ListPathInfo(fullPath string, urlPath string) *resource.Pa
 	}
 
 	for _, entry := range entries {
-		dirPath := urlPath
-		info, _ := entry.Info()
-		displaySize := ""
-		if !entry.IsDir() {
-			displaySize = utils.FormatBytes(info.Size())
-			dirPath = filepath.Join("files", dirPath)
+		pathName := entry.Name()
+		isDir := entry.IsDir()
+		if !recursive && isDir {
+			continue
 		}
-		paths = append(paths, resource.PathInfo{
-			Name:  entry.Name(),
-			IsDir: entry.IsDir(),
-			Size:  displaySize,
-			Path:  filepath.Join(dirPath, entry.Name()),
-		})
+		dirPath := urlPath
+		displaySize := ""
+		if !isDir {
+			info, _ := entry.Info()
+			displaySize = utils.FormatBytes(info.Size())
+			dirPath = filepath.Join("/files", dirPath)
+		}
+		if !strings.HasPrefix(pathName, ".") {
+			path := filepath.Join(dirPath, pathName)
+			paths = append(paths, resource.PathInfo{
+				Name:  pathName,
+				IsDir: isDir,
+				Size:  displaySize,
+				Path:  path,
+			})
+		}
 	}
 	sort.Slice(paths, func(i, j int) bool {
 		if paths[i].IsDir != paths[j].IsDir {

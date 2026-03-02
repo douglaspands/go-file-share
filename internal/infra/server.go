@@ -100,16 +100,17 @@ func (s *server) instances() {
 }
 
 func (s *server) routes() {
+	s.ginEngine.Handle("GET", "/files/*path", s.pathController.DownloadFile)
+	s.ginEngine.Handle("POST", "/files/*path", s.pathController.UploadFile)
+
 	s.ginEngine.Handle("GET", "/", s.pathController.ShowFolder)
-	listPathInfo := s.pathService.ListPathInfo(s.dirPath, "/")
+	listPathInfo := s.pathService.ListPathInfo(s.dirPath, "/", s.recursive)
 	for _, pathInfo := range listPathInfo.Paths {
 		if pathInfo.IsDir {
-			s.ginEngine.Handle("GET", "/"+pathInfo.Path, s.pathController.ShowFolder)
+			s.ginEngine.Handle("GET", "/"+pathInfo.Path+"/*path", s.pathController.ShowFolder)
 		}
 	}
 
-	s.ginEngine.Handle("GET", "/files/*path", s.pathController.DownloadFile)
-	s.ginEngine.Handle("POST", "/files/*path", s.pathController.UploadFile)
 }
 
 func NewServer(port string, dirPath string, recursive bool) Server {

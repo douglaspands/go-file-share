@@ -38,7 +38,7 @@ func (pc *pathController) ShowFolder(gc *gin.Context) {
 		http.Error(gc.Writer, "Access Denied", http.StatusForbidden)
 		return
 	}
-	pathInfo := pc.pathService.ListPathInfo(fullPath, gc.Request.URL.Path)
+	pathInfo := pc.pathService.ListPathInfo(fullPath, gc.Request.URL.Path, pc.recursive)
 	gc.HTML(http.StatusOK, "index.html", gin.H{
 		"pathInfo": pathInfo,
 		"version":  configs.Version,

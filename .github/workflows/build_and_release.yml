@@ -32,7 +32,7 @@ jobs:
 
     - name: Generate executable
       run: |
-        GOARCH=amd64 GOOS=windows go build -trimpath -o ./file-share.exe main.go
+        GOARCH=amd64 GOOS=windows go build -ldflags="-X 'go-file-share/configs.Version=${{ env.TAG_NAME }}'" -trimpath -o ./file-share.exe main.go
 
     - name: Zip the executable
       run: |
@@ -68,7 +68,7 @@ jobs:
 
     - name: Generate executable
       run: |
-        GOARCH=amd64 GOOS=linux go build -trimpath -o ./file-share main.go
+        GOARCH=amd64 GOOS=linux go build -ldflags="-X 'go-file-share/configs.Version=${{ env.TAG_NAME }}'" -trimpath -o ./file-share main.go
 
     - name: Zip the executable
       run: |
@@ -104,7 +104,7 @@ jobs:
 
     - name: Generate executable
       run: |
-        GOARCH=arm64 GOOS=darwin go build -trimpath -o ./file-share main.go
+        GOARCH=arm64 GOOS=darwin go build -ldflags="-X 'go-file-share/configs.Version=${{ env.TAG_NAME }}'" -trimpath -o ./file-share main.go
 
     - name: Zip the executable
       run: |
