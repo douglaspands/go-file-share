@@ -23,7 +23,7 @@ func (ps *pathService) ListPathInfo(fullPath string, urlPath string, recursive b
 	var paths []resource.PathInfo
 	if urlPath != "/" {
 		parent := filepath.Dir(strings.TrimSuffix(urlPath, "/"))
-		paths = append(paths, resource.PathInfo{Name: "../", IsDir: true, Path: parent})
+		paths = append(paths, resource.PathInfo{Name: "../", IsDir: true, Path: filepath.ToSlash(parent)})
 	}
 	for _, entry := range entries {
 		pathName := entry.Name()

@@ -69,8 +69,8 @@ func (pc *pathController) UploadFile(gc *gin.Context) {
 		http.Error(gc.Writer, "Error saving the file", http.StatusInternalServerError)
 		return
 	}
-
-	gc.Redirect(http.StatusSeeOther, filepath.Clean(strings.Replace(gc.Request.URL.Path, "/files", "", 1)))
+	urlRedirect := filepath.ToSlash(filepath.Clean(strings.Replace(gc.Request.URL.Path, "/files", "", 1)))
+	gc.Redirect(http.StatusSeeOther, urlRedirect)
 }
 
 func NewPathController(dirPath string, recursive bool, pathService service.PathService) PathController {
