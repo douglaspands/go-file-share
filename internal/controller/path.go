@@ -26,7 +26,7 @@ type pathController struct {
 }
 
 func (pc *pathController) ShowFolder(gc *gin.Context) {
-	fullPath := filepath.Join(pc.dirPath, filepath.Clean(gc.Request.URL.Path))
+	fullPath := filepath.Join(pc.dirPath, filepath.FromSlash(filepath.Clean(gc.Request.URL.Path)))
 	if !pc.recursive && gc.Request.URL.Path != "/" {
 		rel, _ := filepath.Rel(pc.dirPath, fullPath)
 		if strings.Contains(rel, string(os.PathSeparator)) {
@@ -46,7 +46,7 @@ func (pc *pathController) ShowFolder(gc *gin.Context) {
 }
 
 func (pc *pathController) DownloadFile(gc *gin.Context) {
-	fullPath := filepath.Join(pc.dirPath, filepath.Clean(strings.Replace(gc.Request.URL.Path, "/files", "", 1)))
+	fullPath := filepath.Join(pc.dirPath, filepath.FromSlash(filepath.Clean(strings.Replace(gc.Request.URL.Path, "/files", "", 1))))
 	http.ServeFile(gc.Writer, gc.Request, fullPath)
 }
 
@@ -59,7 +59,7 @@ func (pc *pathController) UploadFile(gc *gin.Context) {
 	defer file.Close()
 
 	fileUpload := resource.FileUpload{
-		UploadDir: filepath.Join(pc.dirPath, filepath.Clean(strings.Replace(gc.Request.URL.Path, "/files", "", 1))),
+		UploadDir: filepath.Join(pc.dirPath, filepath.FromSlash(filepath.Clean(strings.Replace(gc.Request.URL.Path, "/files", "", 1)))),
 		File:      file,
 		Filename:  handler.Filename,
 	}

@@ -30,7 +30,7 @@ var serverCmd = &cobra.Command{
 			}
 			path = filepath.Join(home, path[1:])
 		}
-		absPath, err := filepath.Abs(filepath.Clean(path))
+		absPath, err := filepath.Abs(filepath.FromSlash(filepath.Clean(path)))
 		if err != nil {
 			fmt.Printf("Error: Unable to resolve path: %v\n", err)
 			os.Exit(1)
